@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <section class="text-start">
+        <div class="row" style="background-color: #8df9dc;">
+            <div class="col-7">
+                <div style="background-color: black;" class="p-2">
+                    <h2 style="color:white;">
+                        Bienvenidos al Juego del asesino
+                    </h2>
+                </div>
+            </div>
+            <div class="col">
+            </div>
+        </div>
+    </section>
+    <section class="text-center mt-5">
+        <button onclick="iniciarJuego()" class="btn btn-dark">
+            Iniciar el juego
+        </button>
+    </section>
+    <section>
+        <div id="campoDeAsesinados" class="text-center pt-2">
+        </div>
+    </section>
+</body>
+<script>
+    // Creación de los bancos de información
+    // nombres de todos los que van a participar
+    let nombres = ["Joaquín","Jefferson","Britany","Jenny","Miguel","Rocio","Marco","Gabriel","Alejandro","Seño luz"]
+    // Formas en las que pueden morir
+    let formasDeMorir = [
+        " Tomó y arrojó de la terraza a ", 
+        " Tomó su tijera y la insertó en el cuello de ",
+        " Interceptó en el baño y ahogó en la taza a ",
+        " Dejó caer agua en el tomacorriente cerca de ",
+        " Sedució y llevó a música para golpearlo con la guitarra a ",
+        " Empujó de las escaleras a ",
+        " Metió en clavos con Gilda a ",
+        " Robó un cuchillo de cocina y empaló a ",
+        " Le dió comida de la cafetería con bocado a ",
+        " Acusó con seño Angelica a ",
+        " con su cara mató de un susto a ",
+    ]
+    // Formas de morir que ya se usaron
+    let formasDeMorirYaPasadas = []
+    // Nombres que ya fueron asesinados
+    let nombresYaPasados = []
+
+    // Esta funcion elige a un nombre al azar y lo determina asesino
+    function elegirAsesino(){
+        let asesino = nombres[Math.floor(Math.random()*nombres.length)]
+        nombresYaPasados.push(asesino)
+        return asesino
+    }
+
+    // Elije un nombre de forma aleatoria
+    function elegirnombre(){
+        return nombres[Math.floor(Math.random()*nombres.length)]
+    }
+
+    // Elije una forma de morir aleatoria
+    function elegirformademorir(){
+        return  formasDeMorir[Math.floor(Math.random()*formasDeMorir.length)]
+    }
+ 
+    // Crea parejas de forma de morir o de victima
+    function parejas(){
+        let nombre = elegirnombre()
+        let forma = elegirformademorir()
+        if(!nombresYaPasados.includes(nombre) && !formasDeMorirYaPasadas.includes(forma)){
+            nombresYaPasados.push(nombre)
+            formasDeMorirYaPasadas.push(forma)
+            return [nombre,forma]
+        }
+        else {
+            return parejas()
+        }
+    }
+
+    // Función que comienza el juego y hace los pares necesarios
+    let iniciarJuego = ()=>{
+        elegirAsesino()
+        document.getElementById("campoDeAsesinados").innerHTML += "<h4>¡Que comienze el juego!</h4>"
+        for(let i = 0; i< nombres.length; i++){
+            let pareja = parejas()
+            document.getElementById("campoDeAsesinados").innerHTML += "<p>"+ nombresYaPasados[0] + pareja[1] +  pareja[0] + "</p>"
+        }        
+    }
+
+</script>
+</html>
